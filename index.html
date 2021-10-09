@@ -1,24 +1,94 @@
 <DOCTYPE html>
-<html>
+<html class="h-100" lang='fr'>
     <head>
         <meta charset="utf-8">
-        <title>Lycée Jean Renoir</title>
+        <title>SNT - 2GT10</title>
+
+        <!-- Lien Bootstrap -->
+        <link rel="stylesheet" href="css/index.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     </head>
 
-    <body>
-        <h1 style="text-align: center;">Accueil</h1>
+    <body class="d-flex flex-column h-100">
+        <main class="flex-shrink-0">
+            <div class="container-fluid">
 
-        <h2 style="text-align: center;">Bienvenue sur notre site web !</h2>
+                <!-- navbar -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="index.html">Enseignements SNT</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                  <a class="nav-link" href="project/index.html">Le projet</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Correction Exos HTML/CSS</a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="tutos/exo1_html.html">Exercice 1</a></li>
+                                        <li><a class="dropdown-item" href="tutos/exo2_html.html">Exercice 2</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Python</a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="#">Généralités</a></li>
+                                        <li><a class="dropdown-item" href="#">TD1</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
 
-        <p>Pour le moment, ce n'est pas très joli, mais nous allons l'améliorer tous ensemble. Pour voir comment faire il suffit de cliquer <a href="presentation_project.html">ici</a></p>
+                <div class="row">
+                    <div class="offset-md-2 col-md-8 col-sm-12">
+                        <div class="jumbotron-alert alert alert-secondary">
+                            <h1>Bienvenue sur notre site !</h1>
+                            <hr class="my-4">
+                            <p class="lead">Ici vous retrouverez tout le contenu  de programmation HTML/CSS et Python que nous avons vu en SNT cette année</p> 
+                        </div>
+                    </div>
+                </div>
 
-        
-        <h2 style="margin-top: 20px; padding-top: 20px; text-align:center; color: blue;">On compte sur vous pour revenir voir l'avancée de notre projet ! A bientôt !</h2>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Les derniers ajouts</h2>
+                    </div>
+                </div>
 
-        <p style="margin-top: 50px; padding-top: 10px; border-top: 1px solid black;">En attendant, on va en profiter pour faire quelques tests de fonctionnements...</p>
-        <p id="testjs" style="font-weight: bold; font-style: italic;">Test Javascript</p>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="card">
+                            <img src="img/project.jpg" class="card-img-top" alt="image projet de groupe">
+                            <div class="card-body">
+                                <h5 class="card-title">Projet Web</h5>
+                                <p class="card-text">Création d'un mini site web représentant le site de la cité scolaire Jean Renoir (Bondy)</p>
+                                <a href="presentation_project.html" class="btn btn-primary">Voir le projet</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12">
+                        <div class="card">
+                            <img src="img/code-html.jpg" class="card-img-top" alt="image code html">
+                            <div class="card-body">
+                                <h5 class="card-title">Tutos HTML</h5>
+                                <p class="card-text">Correction des exercices proposés lors de l'activité "Initiation à la programmation HTML/CSS"</p>
+                                <a href="tutos/exo1_html.html" class="btn btn-primary">Voir Exercice 1</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script type="text/javascript" src="js/index.js"></script>
     </body>   
 </html>
