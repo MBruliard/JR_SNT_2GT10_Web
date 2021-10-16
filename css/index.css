@@ -26,3 +26,7 @@ h1 {
 a .btn {
     text-align: right;
 }
+
+.card-img-top {
+    max-height: 250px;
+}
