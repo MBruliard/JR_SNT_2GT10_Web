@@ -1,0 +1,28 @@
+body, html {
+    height: 100%;
+}
+
+
+footer {
+    margin-top: 10px;
+    padding-top: 15px;
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+    left: 0;
+}
+
+footer p {
+    color: white;
+    text-align: center;
+}
+
+.undecorated-link {
+    text-decoration: none;
+    color:  white;
+}
+
+#img-principale {
+    height: 200px;
+    width: auto;
+}
