@@ -1,0 +1,81 @@
+<DOCTYPE html>
+<html5>
+    <head>
+        <title>Niveau 1 | Fractions</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+        <!-- Lien Bootstrap -->
+        <link rel="stylesheet" href="../css/index.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+                    <h1>Les fractions - niveau 1</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    on met le timer ici
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <div class="jumbotron-alert alert alert-primary">
+                        <h3>Effectue le calcul suivant:</h3>
+                        <hr class="my-4">
+                        <p id="display-operation" class="lead">$$ \frac{9}{3}-\frac{1}{7} $$</p> 
+                    <div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div id="display-corr" class="alert alert-success">
+                        <p class="lead">Correction</p>
+                        <p id="display-corr-content"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-2">
+                    <a class="btn btn-danger" href="../maths_training.html">
+                        Quitter
+                    </a>
+                </div>
+
+                <div class="offset-8 col-2">
+                    <div class="btn-group justify-content-end" role="group" aria-label="solution-fraction">
+                      <button id="correction1" type="button" class="btn btn-success">Correction</button>
+                      <button id="play1" type="button" class="btn btn-outline-success">Rejouer</button>
+                    </div>
+                </div>
+            </div>
+
+        utiliser math.js pour le calcul de la solution
+        </div>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="js/niveau1.js"></script>
+
+        <!-- MathJax -->
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+
+
+</html5>
