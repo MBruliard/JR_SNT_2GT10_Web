@@ -1,51 +1,38 @@
-changer le systeme pour supprimer la varibale "globale" (qui n'en ai pas une). 
-    On genere une operation, avec solution incluse et on autorise la lecture avec hide/show. Puis
-    en cas de replay -> on relance une écriture complete
-
-
 $(document).ready(function() {
 
-    var Operation1 = create_operation();
-    $("#display-operation").text(Operation1[0]);
-    MathJax.typeset();
-
-    $("#display-corr").hide(true);
+    load_operation_with_correction()
 
     $("#correction1").click(function (){
-        $("#display-corr").show();
-        $("#display-corr-content").empty();
-        $("#display-corr-content").append(Operation1[0]);
-        $.each(Operation1[1], function(item, value) {
-            $("#display-corr-content").append(value);
-        });
-        MathJax.typeset();
-
-        $("#test").text(create_numerator());    
+        $("#display-corr").show();    
     });
 
     $("#play1").click(function () {
-        var Operation1 = create_operation();
-        $("#display-corr").hide();
-
-        $("#display-corr-content").empty();
-        $("#display-operation").text(Operation1[0]);
-        
-        MathJax.typeset();
-
+        load_operation_with_correction()
     });
 
 
 });
 
 function create_numerator() {
+    /**
+     * Choisit aléatoirement un numérateur entre 0 et 9 inclus
+     */
     return Math.floor((Math.random() * 10));
 }
 
 function create_denominator() {
+    /**
+     * Choisit aléatoirement un dénominateur entre 1 et 9 inclus
+     */
+
     return Math.floor((Math.random() * 10)+ 1);
 }
 
 function choose_operator() {
+    /**
+     * Choisit aléatoirement le type d'opération à effectuer entre '+', '-' et 'x'
+     */
+
     choice = Math.floor((Math.random() * 3));
 
     switch(choice) {
@@ -62,6 +49,9 @@ function choose_operator() {
 }
 
 function pgcd(a, b) {
+    /**
+     * Calcul le PGCD de deux nombres donnés
+     */
     while (a!=b) {
         if (a>b){ 
             a-=b ;
@@ -88,6 +78,12 @@ function create_operation () {
     let den2 = create_denominator();
     let op = choose_operator();
 
+    /* Simplification: */
+    num1 = Math.floor(num1 / pgcd(num1, den1));
+    den1 = Math.floor(den1 / pgcd(num1, den1));
+
+    num2 = Math.floor(num2 / pgcd(num2, den2));
+    den2 = Math.floor(den2 / pgcd(num2, den2));
 
     let results = new Array();
     if (op == "\\times") {
@@ -95,7 +91,7 @@ function create_operation () {
         let tnum = num1 * num2;
         let tden = den1 * den2;
 
-        results[0] = "$$ \\dfrac{" + num1.toString() + "\\times" + num2 + "}{" + den1 + "\\times" + den2 + "}$$";
+        results[0] = "$$ \\dfrac{" + num1 + "\\times" + num2 + "}{" + den1 + "\\times" + den2 + "}$$";
         results[1] = "$$\\dfrac{"+ tnum + "}{" + tden + "}$$";
 
         /* on cherche le PGCD de tnum et tden */ 
@@ -107,10 +103,53 @@ function create_operation () {
             results[3] = "$$ \\dfrac{" + tnum + "}{" + tden + "}$$";
         }
     }
-    else {
-        //alert(false);
+    else {     
+        /* mise au même dénominateur */
+
     }
 
-    return ["$$ \\frac{" + num1 +"}{" + den1 + "}" + op + "\\frac{"+ num2 + "}{" + den2 + "} $$", results ];
+    /* ecriture du calcul : */
+    writing = "$$" ; 
+    if (den1 == 1) {
+        writing = writing.concat(num1) ;
+    }
+    else {
+        writing = writing.concat("\\frac{", num1, "}{", den1, "}") ;
+    }
+
+    writing = writing + op;
+
+    if (den2 == 1) {
+        writing = writing + num2 ;
+    }
+    else {
+        writing = writing + "\\frac{" + num2 +"}{" + den2 + "}";
+    }
+
+    writing = writing + "$$";
+   
+    return [writing, results ];
+
+}
+
+
+
+function load_operation_with_correction () {
+    /*
+     * affiche une nouvelle operation dans la fenetre    
+    */
+
+    let operation1 = create_operation();
+    $("#display-operation").text(operation1[0]);
+    MathJax.typeset();
+
+    /* affichage de la correction */
+    $("#display-corr").hide(true);
+    $("#display-corr-content").empty();
+    $("#display-corr-content").append(operation1[0]);
+    $.each(operation1[1], function(item, value) {
+        $("#display-corr-content").append(value);
+    });
+    MathJax.typeset();
 }
 
