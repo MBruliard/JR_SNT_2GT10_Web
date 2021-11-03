@@ -13,19 +13,35 @@ $(document).ready(function() {
 
 });
 
-function create_numerator() {
+function create_fraction(pos) {
     /**
-     * Choisit aléatoirement un numérateur entre 0 et 9 inclus
+     * Build a fraction with two integers
+     * @arg pos boolean to decide if we force to have a positive fraction. 
+     * @return res an array of two elements. The first one will be the numerator and the second the denominator
      */
-    return Math.floor((Math.random() * 10));
+
+    num = Math.floor((Math.random() * 10 ));
+    den = Math.floor((Math.random() * 10 ) + 1);
+
+    if (pos) {
+        return [num, den];
+    }
+    
+    if (Math.floor(Math.random() * 2) == 1) {
+        return [-num, den];
+    }
 }
 
-function create_denominator() {
+function simplify_fraction (ar) {
     /**
-     * Choisit aléatoirement un dénominateur entre 1 et 9 inclus
+     * Simplify a given fraction to return her irreductible
+     * @arg ar the array of two elements which represents the fraction
+     * @return an new array with the irreductible fraction
+     * @return value of pgcd
      */
 
-    return Math.floor((Math.random() * 10)+ 1);
+    p = pgcd(ar[0], ar[1]);
+    return [[Math.floor( ar[0] / p), Math.floor(ar[1] / p)], p];
 }
 
 function choose_operator() {
@@ -63,73 +79,101 @@ function pgcd(a, b) {
     return a;
 }
 
+function ppcm (a, b) {
+    /**
+     * Compute ppcm
+     * @arg a the first integer
+     * @arg b the second integer
+     * @return value of ppcm(a, b)
+     */
+
+    return Math.floor(Math.abs(a * b / pgcd(a, b)));
+}
+
 function create_operation () {
     /*
-        Crée une operation de fractions simple
+        Build a simple operation between two fractions
 
         @return array de 2 elements:
             * array[0] texte latex de l'operation
             * array[1] resultat de l'operation sous la forme d'un tableau (une case du tableau = une ligne)
     */
 
-    let num1 = create_numerator();
-    let num2 = create_numerator();
-    let den1 = create_denominator();
-    let den2 = create_denominator();
-    let op = choose_operator();
+    f1 = create_fraction(true);
+    f1 = simplify_fraction(f1)[0];
 
-    /* Simplification: */
-    num1 = Math.floor(num1 / pgcd(num1, den1));
-    den1 = Math.floor(den1 / pgcd(num1, den1));
+    f2 = create_fraction(true);
+    f2 = simplify_fraction(f2)[0];
 
-    num2 = Math.floor(num2 / pgcd(num2, den2));
-    den2 = Math.floor(den2 / pgcd(num2, den2));
+    op = choose_operator();
 
     let results = new Array();
+
+    tnum = 0;
+    tden = 1;
+
     if (op == "\\times") {
-        /* on multiplie les denominateurs et les numerateurs entre eux */
-        let tnum = num1 * num2;
-        let tden = den1 * den2;
+        // on multiplie les denominateurs et les numerateurs entre eux 
+        tnum = f1[0] * f2[0];
+        tden = f1[1] * f1[1];
 
-        results[0] = "$$ \\dfrac{" + num1 + "\\times" + num2 + "}{" + den1 + "\\times" + den2 + "}$$";
-        results[1] = "$$\\dfrac{"+ tnum + "}{" + tden + "}$$";
-
-        /* on cherche le PGCD de tnum et tden */ 
-        let gcd = pgcd(tnum, tden);
-        if (gcd != 1) {
-            tnum = Math.floor(tnum / gcd);
-            tden = Math.floor(tden / gcd);
-            results[2] = "$$ \\dfrac{" + tnum + "\\times " + gcd +"}{" + tden + "\\times " + gcd +"} $$";
-            results[3] = "$$ \\dfrac{" + tnum + "}{" + tden + "}$$";
-        }
+        results.push("\\dfrac{" + f1[0] + "\\times" + f2[0] + "}{" + f1[1] + "\\times" + f2[1] + "}");
+        results.push("\\dfrac{"+ tnum + "}{" + tden + "}");
     }
     else {     
-        /* mise au même dénominateur */
+        
+        // step 1: find a common denominator
+        tden = ppcm(f1[1], f2[1]);
 
+        m1 = Math.floor(tden / f1[1]);
+        m2 = Math.floor(tden / f2[1]);
+
+        results.push("\\dfrac{".concat(f1[0],"\\times",m1, "}{", f1[1], "\\times", m1, "}", op, "\\dfrac{", f2[0], "\\times", m2, "}{", f2[1], "\\times", m2, "}")); 
+
+        tnum1 = m1 * f1[0];
+        tnum2 = m2 * f2[0];
+
+        results.push("\\dfrac{".concat(tnum1, "}{", tden, "}", op, "\\dfrac{", tnum2, "}{", tden, "}"));
+        results.push("\\dfrac{".concat(tnum1, op, tnum2, "}{", tden, "}"));
+
+        if (op == '-') {
+            tnum = tnum1 - tnum2;
+        }
+        else {
+            tnum = tnum1 + tnum2;
+        }
+
+        results.push("\\dfrac{".concat(tnum, "}{", tden, "}"));
     }
 
-    /* ecriture du calcul : */
-    writing = "$$" ; 
-    if (den1 == 1) {
-        writing = writing.concat(num1) ;
+    //simplify fraction 
+
+    [irr_frac, gcd] = simplify_fraction([tnum, tden]);
+    if (gcd > 1) {
+        results.push("\\dfrac{" + irr_frac[0] + "\\times " + gcd +"}{" + irr_frac[1] + "\\times " + gcd +"}");
+        results.push("\\dfrac{" + irr_frac[0] + "}{" + irr_frac[1] + "}");
+    }
+
+    
+    //ecriture du calcul : 
+    writing = "" ; 
+    if (f1[1] == 1) {
+        writing = writing.concat(f1[0]) ;
     }
     else {
-        writing = writing.concat("\\frac{", num1, "}{", den1, "}") ;
+        writing = writing.concat("\\frac{", f1[0], "}{", f1[1], "}") ;
     }
 
     writing = writing + op;
 
-    if (den2 == 1) {
-        writing = writing + num2 ;
+    if (f2[1] == 1) {
+        writing = writing + f2[0] ;
     }
     else {
-        writing = writing + "\\frac{" + num2 +"}{" + den2 + "}";
+        writing = writing + "\\frac{" + f2[0] +"}{" + f2[1] + "}";
     }
-
-    writing = writing + "$$";
    
     return [writing, results ];
-
 }
 
 
@@ -140,15 +184,15 @@ function load_operation_with_correction () {
     */
 
     let operation1 = create_operation();
-    $("#display-operation").text(operation1[0]);
+    $("#display-operation").text("$$" + operation1[0] + "$$");
     MathJax.typeset();
 
     /* affichage de la correction */
     $("#display-corr").hide(true);
     $("#display-corr-content").empty();
-    $("#display-corr-content").append(operation1[0]);
+    $("#display-corr-content").append("$$" + operation1[0] + "$$");
     $.each(operation1[1], function(item, value) {
-        $("#display-corr-content").append(value);
+        $("#display-corr-content").append("$$" + value + "$$");
     });
     MathJax.typeset();
 }
